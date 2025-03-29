@@ -1,4 +1,4 @@
-# QA Agent System 
+# Multi Agent LLM framework for QA Engineer
 A modular LLM-powered framework for automated code review, test generation, and QA workflows.
 
 # requirements.txt
