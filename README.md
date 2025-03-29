@@ -1,24 +1,101 @@
-# Test Automation Multi Agent System Using LLM
-이 프로젝트는 코드 변경을 자동으로 감지하고 이에 맞는 자동화된 테스트 케이스와 스크립트를 생성하는 QA Agent를 개발합니다. 지속적인 통합 및 지속적인 배포 (CICDCT) 환경에 대응하기 위해 설계된 이 도구는, 코드 변경을 실시간으로 분석하고, 해당 변경에 맞는 테스트를 자동으로 생성합니다.
-## Overview
-This project leverages advanced AI techniques to automate the generation of test scripts for software applications. Using language models like GPT, it analyzes test cases and automatically generates Python test scripts using popular testing frameworks like `pytest`, `Selenium`, and `Playwright`.
+# requirements.txt
+openai>=1.0.0
+langgraph>=0.0.10
+langchain>=0.1.0
+pyyaml>=6.0
 
-The goal of this project is to create an AI-driven tool that significantly reduces the effort and time required for software testing by automating the generation of test cases and corresponding Python code.
+# README.md
+# QA-Agent-Lib
 
-## Features
-- **Test Case Analysis**: Automatically analyzes input test cases and identifies the necessary steps for testing.
-- **Test Script Generation**: Uses AI to generate Python test scripts using various testing frameworks like `pytest`, `Selenium`, and `Playwright`.
-- **Modular and Maintainable Code**: The generated test scripts follow best practices for readability and maintainability, with support for setup/teardown, fixtures, and assertions.
-- **Flexible Framework Support**: Easily extendable to support different testing frameworks and libraries.
+A modular LLM-powered framework for automated code review, test generation, and QA workflows.
 
-## How It Works
-1. **Input Test Cases**: Provide detailed test cases describing software features and expected behavior.
-2. **AI-Powered Test Code Generation**: The tool analyzes the input and generates Python test scripts with detailed comments describing the test objectives, steps, and expected results.
-3. **Customization**: You can choose between multiple testing frameworks like `pytest`, `Selenium`, and `Playwright`.
-4. **Output**: The generated test scripts are ready for execution, ensuring fast and accurate testing.
+## ✅ Features
 
-## Installation
+- 🤖 LangGraph-compatible QA agents (code review, test generation, etc.)
+- ⚙️ YAML-based workflow configuration
+- 🧠 Pluggable LLM backends (OpenAI, etc.)
+- 🔀 Conditional branching support
+- 💻 CLI for single-agent or full pipeline execution
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/test-automation-agent.git
+## 📦 Installation
+
+```bash
+# (recommended) create a conda environment first
+conda create -n qa_agent python=3.9 -y
+conda activate qa_agent
+
+# install with editable mode
+pip install -e .
+```
+
+## 🚀 Quick Start
+
+### 1. Write your code to be analyzed:
+
+```python
+# examples/test_code.py
+def is_even(n):
+    return n % 2 == 0
+```
+
+### 2. Define your workflow in YAML:
+
+```yaml
+# workflows/review_and_test.yaml
+nodes:
+  - name: review
+    agent: code_review
+  - name: testgen
+    agent: test_case_generator
+edges:
+  - from: review
+    to: testgen
+```
+
+### 3. Run it!
+
+```bash
+qa-agent run \
+  --workflow workflows/review_and_test.yaml \
+  --file examples/test_code.py \
+  --llm chatgpt \
+  --model gpt-3.5-turbo
+```
+
+### Example Output:
+```
+[code_review]
+코드는 간단하며 명확합니다... 
+
+[generated_test]
+import unittest
+...
+```
+
+## 🧩 Agent Types
+- `code_review`: Analyze and comment on given code
+- `test_case_generator`: Generate unit tests
+- (you can add your own!)
+
+## 📚 How to Add Your Own Agent
+
+Create a new file in `agents/`, and inherit from `BaseAgent`:
+
+```python
+from agents.base import BaseAgent
+from engine.registry import register_agent
+
+class MyAgent(BaseAgent):
+    name = "my_agent"
+    input_keys = ["code"]
+    output_keys = ["my_result"]
+
+    def run(self, state: dict) -> dict:
+        result = self.llm.generate("Do something with " + state["code"])
+        state["my_result"] = result
+        return state
+
+register_agent("my_agent", MyAgent)
+```
+
+Then just add it to your YAML and you're done!

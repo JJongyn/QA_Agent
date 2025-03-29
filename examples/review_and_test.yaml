@@ -1,0 +1,12 @@
+nodes:
+  - name: review
+    agent: code_review
+    tags: [review]
+
+  - name: testgen
+    agent: test_case_generator
+    tags: [test]
+
+edges:
+  - from: review
+    to: testgen
