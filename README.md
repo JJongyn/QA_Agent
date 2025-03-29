@@ -1,13 +1,13 @@
+# QA Agent System 
+A modular LLM-powered framework for automated code review, test generation, and QA workflows.
+
 # requirements.txt
 openai>=1.0.0
 langgraph>=0.0.10
 langchain>=0.1.0
 pyyaml>=6.0
 
-# README.md
-# QA-Agent-Lib
 
-A modular LLM-powered framework for automated code review, test generation, and QA workflows.
 
 ## ✅ Features
 
