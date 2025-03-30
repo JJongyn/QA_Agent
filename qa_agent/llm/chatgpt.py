@@ -1,6 +1,6 @@
 import os
 import openai
-from llm.base import LLMInterface
+from .base import LLMInterface
 
 class ChatGPTLLM(LLMInterface):
     def __init__(self, model: str = "gpt-3.5-turbo", api_key: str = None):

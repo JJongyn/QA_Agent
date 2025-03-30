@@ -5,28 +5,11 @@ import os
 
 from pathlib import Path
 
-from engine.registry import get_agent
-from engine.workflow import WorkflowEngine
+from core.auto_selector import run_general_qa
+from core.registry import get_agent
+from core.workflow import WorkflowEngine
 from llm.chatgpt import ChatGPTLLM
-
-def load_llm(model: str, model_type: str):
-    if model == "chatgpt":
-        return ChatGPTLLM(model=model_type)
-    else:
-        raise NotImplementedError(f"LLM model {model} is not supported yet.")
-    
-def load_input(args) -> dict:
-    if args.input:
-        return json.loads(args.input)
-    elif args.file:
-        code = Path(args.file).read_text(encoding="utf-8")
-        return {"code": code}
-    elif not sys.stdin.isatty():
-        # 표준입력 처리
-        code = sys.stdin.read()
-        return {"code": code}
-    else:
-        raise ValueError("입력이 제공되지 않았습니다. --input, --file, stdin 중 하나는 필요합니다.")
+from utils.util import *
 
 # langgrpah - workflow 실행을 위해
 def run_workflow(args):
@@ -35,40 +18,35 @@ def run_workflow(args):
 
     engine = WorkflowEngine()
 
-    def review_judge(state):
-        if "bug" in state.get("code_review", ""):
-            return "needs_fix"
-        return "clean"
+    # def review_judge(state):
+    #     if "bug" in state.get("code_review", ""):
+    #         return "needs_fix"
+    #     return "clean"
 
-    engine.register_condition("review_judge", review_judge)
+    # engine.register_condition("review_judge", review_judge)
+    
     engine.load_from_yaml(args.workflow, llm=llm)
     result = engine.run(state)
-
-    if args.output:
-        Path(args.output).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"✅ 결과 저장됨: {args.output}")
-    else:
-        print("📋 결과:")
-        for k, v in result.items():
-            print(f"\n[{k}]\n{v}")
+    print_result(args, result)
             
 def run_single_agent(args):
     state = load_input(args)
-    llm = load_llm(backend=args.llm, model=args.model)
+    llm = load_llm(model=args.llm, model_type=args.model)
 
     AgentClass = get_agent(args.agent)
     agent = AgentClass(llm=llm)
 
     result = agent(state)
+    print_result(args, result)
 
-    if args.output:
-        Path(args.output).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"✅ 결과 저장됨: {args.output}")
-    else:
-        print("📋 결과:")
-        for k, v in result.items():
-            print(f"\n[{k}]\n{v}")
-            
+def run_auto(args):
+    state = load_input(args)
+    llm = load_llm(model=args.llm, model_type=args.model)
+    result = run_general_qa(query=args.query, user_input=state, llm=llm, include_report=args.summary_only)
+
+    print_result(args, result)
+
+
 def main():
     parser = argparse.ArgumentParser(description="General QA Agent CLI")
     subparsers = parser.add_subparsers(dest="command")
@@ -76,6 +54,7 @@ def main():
     # run workflow
     run_parser = subparsers.add_parser("run", help="워크플로우 실행")
     run_parser.add_argument("--workflow", required=True, help="워크플로우 YAML 경로")
+    run_parser.add_argument("--summary-only", action="store_true", help="qa_report 만 출력 (요약 모드)")
     input_group = run_parser.add_mutually_exclusive_group(required=True)
     input_group.add_argument("--input", help="JSON 문자열 입력")
     input_group.add_argument("--file", help="코드 파일 경로")
@@ -91,13 +70,29 @@ def main():
     agent_parser.add_argument("--input", help="JSON 문자열 입력")
     agent_parser.add_argument("--file", help="코드 파일 경로")
     agent_parser.add_argument("--output", help="결과 저장 경로 (json)")
+    agent_parser.add_argument("--summary-only", action="store_true", help="qa_report 만 출력 (요약 모드)")
+    
+    # auto mode
+    auto_parser = subparsers.add_parser("auto", help="자연어 기반 자동 QA 실행")
+    auto_parser.add_argument("--query", required=True, help="자연어 요청")
+    auto_parser.add_argument("--input", help="JSON 문자열 또는 파일 경로")
+    auto_parser.add_argument("--file", help="코드 파일 경로")
+    auto_parser.add_argument("--llm", default="chatgpt", help="LLM 백엔드")
+    auto_parser.add_argument("--model", default="gpt-3.5-turbo", help="LLM 모델")
+    auto_parser.add_argument("--output", help="결과 저장 경로 (json)")
+    auto_parser.add_argument("--summary-only", action="store_true", help="qa_report 만 출력 (요약 모드)")
 
+    
     args = parser.parse_args()
 
-    if args.command == "run":
-        run_workflow(args)
-    elif args.command == "run-agent":
-        run_single_agent(args)
+    command_map = {
+        "run": run_workflow,
+        "run-agent": run_single_agent,
+        "auto": run_auto
+    }
+
+    if args.command in command_map:
+        command_map[args.command](args)
     else:
         parser.print_help()
 

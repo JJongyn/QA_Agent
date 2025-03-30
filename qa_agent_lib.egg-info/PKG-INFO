@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: qa-agent-lib
+Version: 0.1.0
+Summary: LLM 기반 QA 자동화 프레임워크
+Author: JongyunShin
+Requires-Python: >=3.8
+Requires-Dist: openai
+Requires-Dist: langchain
+Requires-Dist: langgraph
+Requires-Dist: pyyaml

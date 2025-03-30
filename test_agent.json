@@ -1,0 +1,10 @@
+{
+  "type": "agent",
+  "name": "simple_code_review",
+  "description": "코드 리뷰를 수행하는 간단한 프롬프트 에이전트",
+  "input_keys": [
+    "input"
+  ],
+  "output_key": "code_review",
+  "prompt_template": "다음 코드를 리뷰해줘:\n\n{code}"
+}

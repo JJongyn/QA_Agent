@@ -1,5 +1,5 @@
 from typing import Dict, Type
-from agents.base import BaseAgent
+from qa_agent.agents.base import BaseAgent
 
 _AGENT_REGISTRY: Dict[str, Type[BaseAgent]] = {}
 
@@ -13,6 +13,6 @@ def get_agent(name:str) -> Type[BaseAgent]:
         raise ValueError(f"{name}라는 Agent가 등록되어 있지 않습니다.")
     return _AGENT_REGISTRY[name]
 
-def list_agetns() -> Dict[str, Type[BaseAgent]]:
+def list_agents() -> Dict[str, Type[BaseAgent]]:
     return _AGENT_REGISTRY.copy()
 

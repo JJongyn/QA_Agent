@@ -11,7 +11,8 @@ class WorkflowEngine:
         self.last = None
         self.node_sequence = []  # 순서 추적용
         self.conditions = {}
-
+        self.agents = {}
+        
     def add_agent(self, name: str, agent_name: str, llm=None, tags=None):
         AgentClass = get_agent(agent_name)
         agent = AgentClass(llm=llm)
@@ -19,6 +20,7 @@ class WorkflowEngine:
         # tag 저장용 attribute 부여
         agent._tags = tags or []
         self.graph.add_node(name, agent)
+        self.agents[name] = agent
 
         if self.entry is None:
             self.entry = name
@@ -102,4 +104,5 @@ class WorkflowEngine:
                 condition_fn=self.conditions[cond_name],
                 branches=branches
             )
+            
         self.describe()

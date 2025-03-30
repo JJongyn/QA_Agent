@@ -20,6 +20,9 @@ class BaseAgent(ABC):
         """
         pass
 
+    def build_prompt(self, inputs: dict) -> str:
+        raise NotImplementedError("build_prompt()는 사용자 정의 Agent에서 구현해야 합니다.")
+
     def describe(self) -> Dict:
         return {
             "name": self.name,
