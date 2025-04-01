@@ -8,6 +8,14 @@ A modular framework for automating Software QA using LLM-based agents.
 
 🇰🇷 [View in Korean](./docs/README_kor_.md)
 
+## ✅  TODO List
+
+- 🔲 Web based Playground 
+- 🔲 Claude, Ollama
+- 🔲 VS code Extension
+- 🔲 Add SKD Functions
+- 🔲 User key (openAi)
+
 ## ✨ Features
 
 - Built-in expert QA agents for common code analysis tasks  
