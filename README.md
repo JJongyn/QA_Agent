@@ -13,7 +13,7 @@ A modular framework for automating Software QA using LLM-based agents.
 - 🔲 Web based Playground 
 - 🔲 Claude, Ollama
 - 🔲 VS code Extension
-- 🔲 Add SKD Functions
+- 🔲 Add sdk Functions
 - 🔲 User key (openAi)
 
 ## ✨ Features
