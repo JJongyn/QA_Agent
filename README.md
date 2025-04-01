@@ -9,6 +9,8 @@ A modular framework for automating Software QA using LLM-based agents.
 🇰🇷 [View in Korean](./docs/README_kor_.md)
 
 
+LLM 기반 에이전트를 활용하여 Software QA를 지원하는 모듈형 프레임워크입니다.  
+(코드 리뷰, 버그 탐지, 테스트 생성, 리팩토링 등 다양한 QA 작업 지원)
 
 ## ✨ Features
 
