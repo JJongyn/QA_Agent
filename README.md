@@ -1,4 +1,4 @@
-# QA Agent Framework
+# Multi-Agent Framework for QA enginner
 
 ![img](./docs/image.png)
 
