@@ -15,6 +15,7 @@ This tool is a simple and accessible guide for QA engineers who want to use the 
 - 🔲 VS code Extension
 - 🔲 Add sdk Functions
 - 🔲 User key (openAi)
+- 🔲 Generate Test script + RAG
 
 ## ✨ Features
 
