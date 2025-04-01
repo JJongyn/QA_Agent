@@ -1,8 +1,8 @@
 from .core.auto_selector import run_general_qa
 from .core.registry import get_agent, register_agent
 from .core.workflow import WorkflowEngine
-from .llm.chatgpt import ChatGPTLLM
-from .utils.util import *
+from .models.chatgpt import ChatGPTLLM
+from .utils import *
 
 def run_auto_qa(query: str, input: str, model: str, model_type: str, use_summary: bool) -> dict:
     llm = load_llm(model=model, model_type=model_type)
@@ -28,6 +28,4 @@ __all__ = [
     "run_auto_qa",
     "run_workflow_qa",
     "run_single_qa",
-    "get_agent",
-    "register_agent"
 ]

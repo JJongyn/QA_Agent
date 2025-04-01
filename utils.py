@@ -4,7 +4,7 @@ import sys
 import os
 from pathlib import Path
 from typing import Optional
-from qa_agent.llm.chatgpt import ChatGPTLLM
+from qa_agent.models.chatgpt import ChatGPTLLM
 from qa_agent.agents.base import BaseAgent
 from qa_agent.core.registry import register_agent
 

@@ -8,7 +8,7 @@ from pathlib import Path
 from core.auto_selector import run_general_qa
 from core.registry import get_agent
 from core.workflow import WorkflowEngine
-from llm.chatgpt import ChatGPTLLM
+from models.chatgpt import ChatGPTLLM
 from utils.util import *
 
 # langgrpah - workflow 실행을 위해

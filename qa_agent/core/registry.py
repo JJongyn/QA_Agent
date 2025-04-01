@@ -8,11 +8,13 @@ def register_agent(name:str, agent_cls:Type[BaseAgent]):
         raise ValueError(f"{name}는 BaseAgent를 상속해야 합니다.")
     _AGENT_REGISTRY[name] = agent_cls
 
-def get_agent(name:str) -> Type[BaseAgent]:
-    if name not in _AGENT_REGISTRY:
-        raise ValueError(f"{name}라는 Agent가 등록되어 있지 않습니다.")
-    return _AGENT_REGISTRY[name]
-
-def list_agents() -> Dict[str, Type[BaseAgent]]:
+def get_agent() -> Dict[str, Type[BaseAgent]]:
     return _AGENT_REGISTRY.copy()
+
+
+# def get_agent(name:str) -> Type[BaseAgent]:
+#     if name not in _AGENT_REGISTRY:
+#         raise ValueError(f"{name}라는 Agent가 등록되어 있지 않습니다.")
+#     return _AGENT_REGISTRY[name]
+
 

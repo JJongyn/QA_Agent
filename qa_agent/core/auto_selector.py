@@ -1,17 +1,19 @@
-# engine/auto_selector.py
-
 from typing import List, Dict, Optional
-from .workflow import WorkflowEngine
-from .registry import get_agent, list_agents
-from qa_agent.llm.chatgpt import ChatGPTLLM
 
+from .workflow import WorkflowEngine
+from .registry import get_agent
+from qa_agent.models.chatgpt import ChatGPTLLM
+
+"""
+Agent Auto 선택 기능 
+"""
 
 def get_all_agent_descriptions() -> Dict[str, str]:
     """
     각 Agent 클래스의 description 속성을 읽어와서 반환
     """
     descriptions = {}
-    for name, AgentClass in list_agents().items():
+    for name, AgentClass in get_agent().items():
         desc = getattr(AgentClass, "description", "No description provided.")
         descriptions[name] = desc
     return descriptions
@@ -113,8 +115,6 @@ def auto_build_workflow(user_request: str, llm: ChatGPTLLM, include_report: bool
 
     
     return engine
-
-
 
 def run_general_qa(query: str, user_input: Optional[Dict[str, str]], llm: ChatGPTLLM, include_report: bool = False) -> dict:
     """
