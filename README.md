@@ -3,8 +3,8 @@
 ![img](./docs/image.png)
 
 
-A modular framework for automating Software QA using LLM-based agents.  
-(Supports code review, bug detection, test generation, refactoring, and more)
+This tool is a simple and accessible guide for QA engineers who want to use the power of AI agents. We aim to make it easy to integrate LLM-based agents into QA workflows — enabling engineers to automate tasks such as code review, bug detection, test generation, and more, all with minimal setup.
+
 
 🇰🇷 [View in Korean](./docs/README_kor_.md)
 
