@@ -1,5 +1,4 @@
-from core.registry import register_agent
-from agents.base import BaseAgent
+from .base import BaseAgent
 
 class BugDetectionAgent(BaseAgent):
     name = "bug_detection"
@@ -46,9 +45,9 @@ class BugDetectionAgent(BaseAgent):
             "Initialize `count` with a default value"
         ]
         }
-        Code:
-        """ + code
+        Code: {code}
+        """ 
         return prompt
         
-register_agent(BugDetectionAgent.name, BugDetectionAgent)
+
 

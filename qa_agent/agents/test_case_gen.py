@@ -1,4 +1,3 @@
-from qa_agent.core.registry import register_agent
 from .base import BaseAgent
 
 class TestCaseGeneratorAgent(BaseAgent):
@@ -24,30 +23,57 @@ class TestCaseGeneratorAgent(BaseAgent):
         # 일반용
         return self.run({"input": input})["generated_test"]
     
+    # def build_prompt(self, code: str) -> str:
+    #     prompt = """
+    #     You are a test engineer.
+
+    #     Generate appropriate unit test cases for the following Python function or class.  
+    #     Use the `pytest` framework when possible.
+
+    #     Respond in the following JSON format:
+
+    #     {
+    #     "summary": "Description of the test coverage and logic",
+    #     "test_framework": "pytest",
+    #     "test_cases": [
+    #         {
+    #         "name": "test_valid_input",
+    #         "description": "Tests function with valid input",
+    #         "code": "def test_valid_input():\n    assert my_function(2) == 4"
+    #         },
+    #         ...
+    #     ]
+    #     }
+
+    #     Code: {code}
+    #     """ 
+    #     return prompt
+    
     def build_prompt(self, code: str) -> str:
         prompt = """
-        You are a test engineer.
+        당신은 테스트 엔지니어입니다.
 
-        Generate appropriate unit test cases for the following Python function or class.  
-        Use the `pytest` framework when possible.
+        아래에 주어진 Python 함수 또는 클래스를 기반으로 적절한 유닛 테스트 케이스를 생성해주세요.  
+        가능하다면 `pytest` 프레임워크를 사용해주세요.
 
-        Respond in the following JSON format:
+        응답은 다음 JSON 형식을 따르세요:
 
         {
-        "summary": "Description of the test coverage and logic",
+        "summary": "테스트 커버리지 및 테스트 로직에 대한 간단한 설명",
         "test_framework": "pytest",
         "test_cases": [
             {
             "name": "test_valid_input",
-            "description": "Tests function with valid input",
+            "description": "유효한 입력값에 대한 테스트",
             "code": "def test_valid_input():\n    assert my_function(2) == 4"
             },
             ...
         ]
         }
 
-        Code:
-        """ + code
+
+        Code: {code}
+        """ 
         return prompt
 
-register_agent(TestCaseGeneratorAgent.name, TestCaseGeneratorAgent)
+

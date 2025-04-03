@@ -1,16 +1,16 @@
 import os
 
 from qa_agent import run_auto_qa, run_workflow_qa, run_single_qa
+from qa_agent.utils import *
+result = run_auto_qa(
+    query="이 코드에 대해 리뷰하고 text case 생성해줘",
+    input="def add(a, b): return a + b",
+    model="chatgpt",
+    model_type="gpt-3.5-turbo",
+    use_summary=False
+)
 
-# result = run_auto_qa(
-#     query="이 코드 리뷰해줘",
-#     input="./test_code.py",
-#     model="chatgpt",
-#     model_type="gpt-3.5-turbo",
-#     use_summary=True
-# )
-
-
+print(result)
 # result = run_workflow_qa(
 #     input="def is_even(n): return n % 2 == 0",
 #     model="chatgpt",
@@ -18,7 +18,7 @@ from qa_agent import run_auto_qa, run_workflow_qa, run_single_qa
 #     yaml_path="./review_and_test.yaml"
 # )
 
-# print(result)
+save_report_as_pdf(result)
 
 
 # from qa_agent import run_single_qa
@@ -34,7 +34,7 @@ from qa_agent import run_auto_qa, run_workflow_qa, run_single_qa
 
 
 # =====통과 ======#
-from qa_agent.utils.util import create_prompt_agent, save_prompt_agent, load_prompt_aget
+# from qa_agent.utils.util import create_prompt_agent, save_prompt_agent, load_prompt_aget
 
 # 실행 #### 동적으로 prompt agent 생성하기
 # create_prompt_agent(

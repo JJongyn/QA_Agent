@@ -1,10 +1,14 @@
 import os
 import sys
 import json
+import pdfkit
+import markdown
+
 
 from pathlib import Path
-
+from md2pdf.core import md2pdf
 from .models.chatgpt import ChatGPTLLM
+
 
 '''
 입출력 관련 Utils
@@ -43,8 +47,6 @@ def print_result(args, result):
             print(f"\n[{k}]\n{v}")
             
 
-
-
 def resolve_input(input_val) -> dict:
     if isinstance(input_val, dict):
         return input_val
@@ -60,3 +62,12 @@ def resolve_input(input_val) -> dict:
             return {"input": input_val}      # 그냥 문자열 코드로 간주
     else:
         raise ValueError("input은 str 또는 dict 타입이어야 합니다.")
+    
+def save_report_as_pdf(report_markdown, output_path = "qa_report.md"):
+    if isinstance(report_markdown, dict):
+        report_md = report_markdown.get("summary_markdown", "")
+    else:
+        report_md = str(report_markdown)
+
+    Path(output_path).write_text(report_md, encoding="utf-8")
+    print(f"✅ Markdown 리포트 저장 완료: {output_path}")

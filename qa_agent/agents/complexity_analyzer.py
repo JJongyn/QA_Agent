@@ -1,4 +1,3 @@
-from qa_agent.core.registry import register_agent
 from .base import BaseAgent
 
 class ComplexityAnalyzerAgent(BaseAgent):
@@ -48,8 +47,8 @@ class ComplexityAnalyzerAgent(BaseAgent):
         ]
         }
 
-        Code:
-        """ + code
+        Code: {code}
+        """ 
         return prompt
 
-register_agent(ComplexityAnalyzerAgent.name, ComplexityAnalyzerAgent)
+

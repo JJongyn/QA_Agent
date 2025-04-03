@@ -2,7 +2,7 @@ import yaml
 from typing import Dict, Any
 
 from langgraph.graph import StateGraph
-from .registry import get_agent
+from .registry import find_agent
 
 class WorkflowEngine:
     def __init__(self):
@@ -14,7 +14,7 @@ class WorkflowEngine:
         self.agents = {}
         
     def add_agent(self, name: str, agent_name: str, llm=None, tags=None):
-        AgentClass = get_agent(agent_name)
+        AgentClass = find_agent(agent_name)
         agent = AgentClass(llm=llm)
 
         # tag 저장용 attribute 부여

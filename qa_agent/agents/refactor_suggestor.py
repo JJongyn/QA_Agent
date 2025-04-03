@@ -1,4 +1,3 @@
-from qa_agent.core.registry import register_agent
 from .base import BaseAgent
 
 class RefactorSuggesterAgent(BaseAgent):
@@ -45,8 +44,8 @@ class RefactorSuggesterAgent(BaseAgent):
         "explanation": "Refactoring improves readability and reduces maintenance cost"
         }
 
-        Code:
-        """ + code
+        Code: {code}
+        """ 
         return prompt
 
-register_agent(RefactorSuggesterAgent.name, RefactorSuggesterAgent)
+

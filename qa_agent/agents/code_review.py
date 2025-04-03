@@ -1,4 +1,3 @@
-from qa_agent.core.registry import register_agent
 from .base import BaseAgent
 
 class CodeReviewAgent(BaseAgent):
@@ -26,31 +25,22 @@ class CodeReviewAgent(BaseAgent):
         
     def build_prompt(self, code: str) -> str:
         prompt = """
-        You are a senior software engineer conducting a code review.
+        당신은 시니어 소프트웨어 엔지니어입니다.  
+        아래에 주어진 Python 코드를 읽고 다음 항목에 대한 리뷰를 작성해주세요:
 
-        Carefully review the provided Python code and identify:
-        - Style issues
-        - Design flaws
-        - Potential bugs
-        - Suggestions for improvement
+        - 코드 스타일 및 포매팅
+        - 가독성과 유지보수성
+        - 버그 가능성 또는 논리적 문제
+        - 개선을 위한 제안
 
-        Respond in the following JSON format:
+        객관적이고 명확하게, 그리고 개발자에게 도움이 되는 방식으로 작성해주세요.  
+        응답은 마크다운 형식으로 깔끔하게 정리해주세요.
 
-        {
-        "summary": "Brief summary of the overall review",
-        "issues": [
-            "Line 14: Variable name `tmp` is too vague",
-            "Line 22–30: Deep nesting makes the logic hard to follow"
-        ],
-        "suggestions": [
-            "Use more descriptive variable names",
-            "Refactor nested conditionals into helper functions"
-        ]
-        }
-
-        Code:
-        """ + code
+        ### 🔍 리뷰 대상 코드:
+        ```Code
+        {code}
+        """ 
         return prompt
         
-register_agent(CodeReviewAgent.name, CodeReviewAgent)
+
 
